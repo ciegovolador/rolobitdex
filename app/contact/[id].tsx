@@ -6,7 +6,7 @@ import { Card } from "../../src/components/Card";
 import { Button } from "../../src/components/Button";
 import { Input } from "../../src/components/Input";
 import { ConfirmModal } from "../../src/components/ConfirmModal";
-import { colors, spacing, fontSize, borderRadius } from "../../src/constants/theme";
+import { colors, spacing, fontSize, borderRadius, typography } from "../../src/constants/theme";
 import {
   getContact, updateContact, deleteContact,
   getAliases, createAlias, deleteAlias,
@@ -306,26 +306,32 @@ function SectionHeader({ title, onAdd, addLabel }: { title: string; onAdd: () =>
 
 const sectionStyles = StyleSheet.create({
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: spacing.lg, marginBottom: spacing.sm },
-  title: { color: colors.text, fontSize: fontSize.lg, fontWeight: "700" },
-  addBtn: { color: colors.primary, fontSize: fontSize.md, fontWeight: "600" },
+  title: {
+    color: colors.textSecondary,
+    ...typography.xs,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  addBtn: { color: colors.primary, ...typography.sm, fontWeight: "600" },
 });
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
   loadingText: { color: colors.textSecondary, textAlign: "center", marginTop: 40 },
-  header: { flexDirection: "row", alignItems: "center", marginBottom: spacing.md },
+  header: { flexDirection: "row", alignItems: "center", marginBottom: spacing.lg },
   avatar: {
-    width: 56, height: 56, borderRadius: 28,
+    width: 64, height: 64, borderRadius: 32,
     backgroundColor: colors.primary, alignItems: "center", justifyContent: "center", marginRight: spacing.md,
   },
   avatarText: { color: "#fff", fontWeight: "700", fontSize: fontSize.xl },
-  name: { color: colors.text, fontSize: fontSize.xxl, fontWeight: "700" },
-  hint: { color: colors.textMuted, fontSize: fontSize.sm },
-  itemCard: { marginBottom: spacing.xs },
+  name: { color: colors.text, ...typography.xl, fontSize: fontSize.xxl },
+  hint: { color: colors.textMuted, ...typography.xs, marginTop: 2 },
+  itemCard: { marginBottom: spacing.sm },
   itemRow: { flexDirection: "row", alignItems: "center" },
-  itemTitle: { color: colors.text, fontSize: fontSize.md, fontWeight: "600" },
-  itemSub: { color: colors.textSecondary, fontSize: fontSize.sm },
-  itemLabel: { color: colors.primary, fontSize: fontSize.sm, marginTop: 2 },
+  itemTitle: { color: colors.text, ...typography.md, fontWeight: "600" },
+  itemSub: { color: colors.textSecondary, ...typography.sm },
+  itemLabel: { color: colors.primary, ...typography.xs, marginTop: 2 },
   formCard: { marginBottom: spacing.sm },
-  emptySection: { color: colors.textMuted, fontSize: fontSize.sm, marginBottom: spacing.sm },
+  emptySection: { color: colors.textMuted, ...typography.xs, marginBottom: spacing.sm, marginLeft: spacing.xs },
 });
