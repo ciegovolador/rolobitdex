@@ -1,14 +1,54 @@
-import { Tabs } from "expo-router";
+import { View, useWindowDimensions, StyleSheet } from "react-native";
+import { Tabs, usePathname, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { Sidebar } from "../../src/components/Sidebar";
+import { colors, breakpoints } from "../../src/constants/theme";
 
 export default function TabLayout() {
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= breakpoints.tablet;
+  const pathname = usePathname();
+
+  const activeTab =
+    pathname === "/" || pathname.startsWith("/index") ? "index" :
+    pathname.startsWith("/trades") ? "trades" :
+    pathname.startsWith("/address") ? "address" :
+    pathname.startsWith("/settings") ? "settings" : "index";
+
+  function handleTabPress(name: string) {
+    const route = name === "index" ? "/" : `/${name}`;
+    router.push(route as any);
+  }
+
+  if (isDesktop) {
+    return (
+      <View style={styles.desktopLayout}>
+        <Sidebar activeTab={activeTab} onTabPress={handleTabPress} />
+        <View style={styles.desktopContent}>
+          <Tabs
+            screenOptions={{
+              tabBarStyle: { display: "none" },
+              headerStyle: { backgroundColor: colors.surface },
+              headerTintColor: "#fff",
+            }}
+          >
+            <Tabs.Screen name="index" options={{ title: "Contacts" }} />
+            <Tabs.Screen name="trades" options={{ title: "Trades" }} />
+            <Tabs.Screen name="address" options={{ title: "My Address" }} />
+            <Tabs.Screen name="settings" options={{ title: "Settings" }} />
+          </Tabs>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#F7931A",
-        headerStyle: { backgroundColor: "#1A1A2E" },
+        tabBarActiveTintColor: colors.primary,
+        headerStyle: { backgroundColor: colors.surface },
         headerTintColor: "#fff",
-        tabBarStyle: { backgroundColor: "#1A1A2E", borderTopColor: "#2A2A3E" },
+        tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
         tabBarInactiveTintColor: "#888",
       }}
     >
@@ -51,3 +91,14 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  desktopLayout: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: colors.background,
+  },
+  desktopContent: {
+    flex: 1,
+  },
+});

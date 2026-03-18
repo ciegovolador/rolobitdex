@@ -1,20 +1,53 @@
+import { useState } from "react";
 import { TextInput, View, Text, StyleSheet, TextInputProps } from "react-native";
-import { colors, spacing, fontSize, borderRadius } from "../constants/theme";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolateColor,
+} from "react-native-reanimated";
+import { colors, spacing, fontSize, borderRadius, animation } from "../constants/theme";
 
 type InputProps = TextInputProps & {
   label?: string;
   error?: string;
 };
 
-export function Input({ label, error, style, ...props }: InputProps) {
+const AnimatedView = Animated.createAnimatedComponent(View);
+
+export function Input({ label, error, style, onFocus, onBlur, ...props }: InputProps) {
+  const focus = useSharedValue(0);
+
+  const borderStyle = useAnimatedStyle(() => ({
+    borderColor: interpolateColor(
+      focus.value,
+      [0, 1],
+      [error ? colors.error : colors.border, colors.primary]
+    ),
+  }));
+
+  function handleFocus(e: any) {
+    focus.value = withTiming(1, { duration: animation.fast });
+    onFocus?.(e);
+  }
+
+  function handleBlur(e: any) {
+    focus.value = withTiming(0, { duration: animation.fast });
+    onBlur?.(e);
+  }
+
   return (
     <View style={styles.container}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <TextInput
-        style={[styles.input, error && styles.inputError, style]}
-        placeholderTextColor={colors.textMuted}
-        {...props}
-      />
+      <AnimatedView style={[styles.inputWrapper, borderStyle]}>
+        <TextInput
+          style={[styles.input, style]}
+          placeholderTextColor={colors.textMuted}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          {...props}
+        />
+      </AnimatedView>
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
@@ -23,16 +56,17 @@ export function Input({ label, error, style, ...props }: InputProps) {
 const styles = StyleSheet.create({
   container: { marginBottom: spacing.md },
   label: { color: colors.textSecondary, fontSize: fontSize.sm, marginBottom: spacing.xs },
-  input: {
+  inputWrapper: {
     backgroundColor: colors.surface,
-    color: colors.text,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: borderRadius.sm,
+    borderRadius: borderRadius.md,
+  },
+  input: {
+    color: colors.text,
     paddingVertical: spacing.sm + 2,
     paddingHorizontal: spacing.md,
     fontSize: fontSize.md,
   },
-  inputError: { borderColor: colors.error },
   error: { color: colors.error, fontSize: fontSize.sm, marginTop: spacing.xs },
 });
