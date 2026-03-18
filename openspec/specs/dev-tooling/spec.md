@@ -1,8 +1,9 @@
-# dev-tooling Specification
-
 ## Purpose
-TBD - created by archiving change docs-and-coverage. Update Purpose after archive.
+
+Ensure the project has comprehensive developer tooling: documentation, test coverage, and code annotations so new contributors can onboard quickly and changes are validated automatically.
+
 ## Requirements
+
 ### Requirement: README with run instructions
 The project SHALL include a README.md with prerequisites, installation steps, and commands to run the app on iOS, Android, and Web.
 
@@ -34,4 +35,3 @@ Key exported functions in `src/db/` and `src/lib/` SHALL have JSDoc comments des
 #### Scenario: Developer reads function docs
 - **WHEN** developer hovers over a function in their IDE
 - **THEN** JSDoc description, parameter types, and return type are shown
-

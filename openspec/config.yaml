@@ -3,7 +3,7 @@ schema: spec-driven
 context: |
   Tech stack: TypeScript, React Native (Expo), expo-router, expo-sqlite
   Domain: P2P Bitcoin contact list with Silent Payments
-  Conventions: conventional commits, gstack workflow (see openspec/specs/gstack-workflow)
+  Conventions: conventional commits, gstack workflow (see openspec/specs/gstack-lifecycle)
   Tooling: gstack v0.6.4 for full lifecycle — plan reviews, QA, ship, retro
   Testing: Jest with 75+ tests across contacts, trades, silent payments, backup
   Design: Responsive layout (mobile/tablet/desktop), centralized theme constants
