@@ -1,12 +1,17 @@
 import { useState, useCallback } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, useWindowDimensions } from "react-native";
 import { useFocusEffect, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Input } from "../../src/components/Input";
-import { colors, spacing, fontSize, borderRadius } from "../../src/constants/theme";
+import { AnimatedScreen } from "../../src/components/AnimatedScreen";
+import { AnimatedListItem } from "../../src/components/AnimatedListItem";
+import { colors, spacing, fontSize, borderRadius, elevation, typography } from "../../src/constants/theme";
+import { breakpoints } from "../../src/constants/theme";
 import { getAllContacts, searchContacts, Contact } from "../../src/db/contacts";
 
 export default function ContactsScreen() {
+  const { width } = useWindowDimensions();
+  const numColumns = width >= breakpoints.tablet ? 2 : 1;
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [query, setQuery] = useState("");
 
@@ -21,33 +26,40 @@ export default function ContactsScreen() {
     setContacts(results);
   }
 
-  function renderContact({ item }: { item: Contact }) {
+  function renderContact({ item, index }: { item: Contact; index: number }) {
     const initials = item.name.slice(0, 2).toUpperCase();
     return (
-      <TouchableOpacity
-        style={styles.contactRow}
-        onPress={() => router.push(`/contact/${item.id}`)}
-      >
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{initials}</Text>
-        </View>
-        <Text style={styles.contactName}>{item.name}</Text>
-        <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
-      </TouchableOpacity>
+      <AnimatedListItem index={index}>
+        <TouchableOpacity
+          style={styles.contactRow}
+          onPress={() => router.push(`/contact/${item.id}`)}
+          activeOpacity={0.7}
+        >
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>{initials}</Text>
+          </View>
+          <View style={styles.contactInfo}>
+            <Text style={styles.contactName}>{item.name}</Text>
+            <Text style={styles.contactSub}>Tap to view details</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+        </TouchableOpacity>
+      </AnimatedListItem>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Input
-        placeholder="Search contacts..."
-        value={query}
-        onChangeText={setQuery}
-        style={{ marginHorizontal: spacing.md, marginTop: spacing.md }}
-      />
+    <AnimatedScreen>
+      <View style={styles.searchContainer}>
+        <Input
+          placeholder="Search contacts..."
+          value={query}
+          onChangeText={setQuery}
+        />
+      </View>
       {contacts.length === 0 ? (
         <View style={styles.empty}>
-          <Ionicons name="people-outline" size={48} color={colors.textMuted} />
+          <Ionicons name="people-outline" size={56} color={colors.textMuted} />
           <Text style={styles.emptyText}>
             {query ? "No contacts found" : "No contacts yet"}
           </Text>
@@ -57,46 +69,57 @@ export default function ContactsScreen() {
         </View>
       ) : (
         <FlatList
+          key={numColumns}
           data={contacts}
           keyExtractor={(item) => item.id}
           renderItem={renderContact}
-          contentContainerStyle={{ padding: spacing.md }}
+          numColumns={numColumns}
+          contentContainerStyle={styles.list}
+          columnWrapperStyle={numColumns > 1 ? { gap: spacing.sm } : undefined}
+          ItemSeparatorComponent={() => <View style={{ height: spacing.sm }} />}
         />
       )}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => router.push("/contact/new")}
+        activeOpacity={0.8}
       >
         <Ionicons name="add" size={28} color="#fff" />
       </TouchableOpacity>
-    </View>
+    </AnimatedScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.background },
+  container: { flex: 1, backgroundColor: colors.background, alignSelf: "center", width: "100%", maxWidth: 800 },
+  searchContainer: { paddingHorizontal: spacing.md, paddingTop: spacing.md },
+  list: { padding: spacing.md },
   contactRow: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: colors.surface,
     padding: spacing.md,
-    borderRadius: borderRadius.md,
-    marginBottom: spacing.sm,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
     marginRight: spacing.md,
   },
   avatarText: { color: "#fff", fontWeight: "700", fontSize: fontSize.md },
-  contactName: { flex: 1, color: colors.text, fontSize: fontSize.lg },
+  contactInfo: { flex: 1 },
+  contactName: { color: colors.text, ...typography.lg },
+  contactSub: { color: colors.textMuted, ...typography.xs, marginTop: 2 },
   empty: { flex: 1, alignItems: "center", justifyContent: "center" },
-  emptyText: { color: colors.textSecondary, fontSize: fontSize.lg, marginTop: spacing.md },
-  emptyHint: { color: colors.textMuted, fontSize: fontSize.md, marginTop: spacing.xs },
+  emptyText: { color: colors.textSecondary, ...typography.lg, marginTop: spacing.md },
+  emptyHint: { color: colors.textMuted, ...typography.sm, marginTop: spacing.xs },
   fab: {
     position: "absolute",
     bottom: spacing.lg,
@@ -107,7 +130,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 4,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
-  },
+    boxShadow: elevation[3],
+  } as any,
 });
