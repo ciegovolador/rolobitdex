@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Rolobitdex",
+    "slug": "rolobitdex",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "rolobitdex",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rolobitdex.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.rolobitdex.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "name": "Rolobitdex",
+      "shortName": "Rolobitdex",
+      "description": "P2P contact list for Bitcoin trading",
+      "backgroundColor": "#0F0F1A",
+      "themeColor": "#1A1A2E"
+    },
+    "plugins": ["expo-router"]
+  }
+}
