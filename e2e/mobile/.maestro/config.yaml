@@ -1,0 +1,5 @@
+# Maestro E2E configuration for Rolobitdex
+# Install: curl -Ls "https://get.maestro.mobile.dev" | bash
+# Run: maestro test e2e/mobile/
+
+appId: com.rolobitdex.app

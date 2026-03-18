@@ -44,5 +44,9 @@ yarn-error.*
 # coverage
 coverage/
 
+# Playwright
+test-results/
+playwright-report/
+
 # claude skills (vendored tooling)
 .claude/skills/

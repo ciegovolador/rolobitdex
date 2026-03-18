@@ -48,8 +48,13 @@ On the Expo dev server menu, press:
 ## Running Tests
 
 ```bash
-npm test              # Run all tests
+npm test              # Run all unit tests (Jest)
 npm run test:coverage # Run tests with coverage report
+
+# End-to-end tests
+npm run test:e2e:web     # Playwright tests against Expo web build
+npm run test:e2e:mobile  # Maestro flows for mobile (requires Maestro CLI)
+npm run test:e2e         # Run all E2E tests
 ```
 
 ## Project Structure
@@ -61,8 +66,8 @@ app/                    # Expo Router screens
   trade/                # Trade detail & creation screens
   scan.tsx              # QR code scanner
 src/
-  components/           # Shared UI components (Button, Input, Card, ConfirmModal)
-  constants/theme.ts    # Colors, spacing, typography
+  components/           # Shared UI components (Button, Input, Card, Sidebar, etc.)
+  constants/theme.ts    # Colors, spacing, typography, breakpoints
   db/                   # SQLite database layer
     schema.ts           # Table definitions
     database.ts         # DB initialization
@@ -71,6 +76,10 @@ src/
   lib/
     silentPayments.ts   # Silent payment address generation & validation
     backup.ts           # Encrypted backup export/import
+e2e/                    # End-to-end tests
+  web/                  # Playwright tests (Expo web build)
+  mobile/               # Maestro flows (React Native mobile)
+  helpers/              # Shared test data factories & cleanup utilities
 openspec/               # Spec-driven development artifacts
 ```
 
