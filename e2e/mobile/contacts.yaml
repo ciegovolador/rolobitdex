@@ -1,0 +1,38 @@
+appId: com.rolobitdex.app
+---
+# Contact creation flow on mobile
+- launchApp
+
+# Verify empty state
+- assertVisible: "No contacts yet"
+
+# Tap FAB to add a new contact
+- tapOn:
+    id: "add-contact-fab"
+
+# Fill in contact name
+- tapOn:
+    id: "contact-name-input"
+- inputText: "Alice Nakamoto"
+
+# Save the contact
+- tapOn: "Save"
+
+# Verify we're on the contact detail page
+- assertVisible: "Alice Nakamoto"
+
+# Go back to contacts list
+- back
+
+# Verify contact appears in list
+- assertVisible: "Alice Nakamoto"
+
+# Search for the contact
+- tapOn:
+    id: "search-input"
+- inputText: "Alice"
+- assertVisible: "Alice Nakamoto"
+
+# Clear search and verify all contacts show
+- clearText
+- assertVisible: "Alice Nakamoto"

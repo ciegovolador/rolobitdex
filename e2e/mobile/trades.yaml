@@ -1,0 +1,47 @@
+appId: com.rolobitdex.app
+---
+# Trade lifecycle flow on mobile
+# Prerequisite: At least one contact must exist
+- launchApp
+
+# Create a contact first
+- tapOn:
+    id: "add-contact-fab"
+- tapOn:
+    id: "contact-name-input"
+- inputText: "Alice Nakamoto"
+- tapOn: "Save"
+- back
+
+# Navigate to Trades tab
+- tapOn: "Trades"
+
+# Create a new trade
+- tapOn:
+    id: "add-trade-fab"
+
+# Select BUY type
+- tapOn: "BUY BTC"
+
+# Select counterparty
+- tapOn: "Alice Nakamoto"
+
+# Fill trade details
+- tapOn:
+    id: "sats-amount-input"
+- inputText: "100000"
+- tapOn:
+    id: "fiat-amount-input"
+- inputText: "50"
+
+# Create the trade
+- tapOn: "Create Trade"
+
+# Verify trade was created with pending status
+- assertVisible: "pending"
+
+# Go back to trades list
+- back
+
+# Verify trade appears in list
+- assertVisible: "Alice Nakamoto"
