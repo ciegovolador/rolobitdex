@@ -1,20 +1,9 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
-
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+context: |
+  Tech stack: TypeScript, React Native (Expo), expo-router, expo-sqlite
+  Domain: P2P Bitcoin contact list with Silent Payments
+  Conventions: conventional commits, gstack workflow (see openspec/specs/gstack-workflow)
+  Tooling: gstack v0.6.4 for full lifecycle — plan reviews, QA, ship, retro
+  Testing: Jest with 75+ tests across contacts, trades, silent payments, backup
+  Design: Responsive layout (mobile/tablet/desktop), centralized theme constants
