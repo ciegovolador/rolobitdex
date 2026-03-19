@@ -31,6 +31,10 @@ export function Sidebar({ activeTab, onTabPress }: SidebarProps) {
             key={tab.name}
             style={[styles.navItem, isActive && styles.navItemActive]}
             onPress={() => onTabPress(tab.name)}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: isActive }}
+            accessibilityLabel={tab.title}
+            testID={`sidebar-${tab.name}-tab`}
           >
             <Ionicons
               name={tab.icon}

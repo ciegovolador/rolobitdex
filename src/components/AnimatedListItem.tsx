@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import Animated, { FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInDown, useReducedMotion } from "react-native-reanimated";
+import { View } from "react-native";
 import { animation } from "../constants/theme";
 
 type AnimatedListItemProps = {
@@ -8,6 +9,12 @@ type AnimatedListItemProps = {
 };
 
 export function AnimatedListItem({ children, index }: AnimatedListItemProps) {
+  const reducedMotion = useReducedMotion();
+
+  if (reducedMotion) {
+    return <View>{children}</View>;
+  }
+
   return (
     <Animated.View entering={FadeInDown.delay(index * 50).duration(animation.normal)}>
       {children}

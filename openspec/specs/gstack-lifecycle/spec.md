@@ -119,6 +119,17 @@ The Planning phase SHALL include `/plan-automation-tester-review` as an optional
 - **WHEN** a change is < 20 lines, config-only, or a typo fix
 - **THEN** the Automation Tester review is not recommended
 
+### Requirement: Planning phase includes A11y Auditor review
+The Planning phase SHALL include `/plan-a11y-auditor-review` as an optional review role for changes that touch UI components or screens.
+
+#### Scenario: Change touches UI components
+- **WHEN** a change adds or modifies React Native components, screens, or styles
+- **THEN** the developer SHALL be recommended to run `/plan-a11y-auditor-review`
+
+#### Scenario: Change is backend-only
+- **WHEN** a change only modifies database, utility, or non-UI code
+- **THEN** the A11y Auditor review is not recommended
+
 ### Requirement: Every change starts on a new branch from main
 Before implementation begins, the developer SHALL create a new branch from the latest main branch. Work SHALL NOT be done directly on main.
 

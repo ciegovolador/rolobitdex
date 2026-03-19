@@ -61,6 +61,10 @@ export default function NewTradeScreen() {
             style={[styles.typeBtn, type === t && styles.typeBtnActive]}
             onPress={() => setType(t)}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityState={{ selected: type === t }}
+            accessibilityLabel={t === "buy" ? "Buy Bitcoin" : "Sell Bitcoin"}
+            testID={`trade-new-type-${t}`}
           >
             <Text style={[styles.typeText, type === t && styles.typeTextActive]}>
               {t === "buy" ? "BUY BTC" : "SELL BTC"}
@@ -81,6 +85,10 @@ export default function NewTradeScreen() {
                 style={[styles.contactChip, isSelected && styles.contactChipActive]}
                 onPress={() => setSelectedContact(c.id)}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityState={{ selected: isSelected }}
+                accessibilityLabel={`${c.name}${isSelected ? ", selected" : ""}`}
+                testID={`trade-new-contact-${c.id}`}
               >
                 <Text style={[styles.contactText, isSelected && styles.contactTextActive]}>
                   {c.name}
@@ -96,9 +104,9 @@ export default function NewTradeScreen() {
 
       {/* Trade details */}
       <Text style={styles.sectionLabel}>Trade Details</Text>
-      <Input label="Sats Amount" value={sats} onChangeText={setSats} placeholder="100000" keyboardType="numeric" />
-      <Input label="Fiat Currency" value={fiatCurrency} onChangeText={setFiatCurrency} placeholder="MXN" />
-      <Input label="Fiat Amount" value={fiatAmount} onChangeText={setFiatAmount} placeholder="500" keyboardType="numeric" />
+      <Input label="Sats Amount" value={sats} onChangeText={setSats} placeholder="100000" keyboardType="numeric" testID="trade-new-sats-input" />
+      <Input label="Fiat Currency" value={fiatCurrency} onChangeText={setFiatCurrency} placeholder="MXN" testID="trade-new-currency-input" />
+      <Input label="Fiat Amount" value={fiatAmount} onChangeText={setFiatAmount} placeholder="500" keyboardType="numeric" testID="trade-new-fiat-input" />
 
       <Button
         title="Create Trade"
@@ -106,6 +114,7 @@ export default function NewTradeScreen() {
         loading={loading}
         disabled={!selectedContact || !sats || !fiatAmount}
         style={{ marginTop: spacing.sm }}
+        testID="trade-new-create-btn"
       />
     </ScrollView>
   );

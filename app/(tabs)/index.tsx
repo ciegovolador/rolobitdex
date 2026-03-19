@@ -34,6 +34,9 @@ export default function ContactsScreen() {
           style={styles.contactRow}
           onPress={() => router.push(`/contact/${item.id}`)}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={`${item.name}, tap to view details`}
+          testID={`contacts-row-${item.id}`}
         >
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>{initials}</Text>
@@ -55,10 +58,11 @@ export default function ContactsScreen() {
           placeholder="Search contacts..."
           value={query}
           onChangeText={setQuery}
+          testID="contacts-search-input"
         />
       </View>
       {contacts.length === 0 ? (
-        <View style={styles.empty}>
+        <View style={styles.empty} accessibilityLabel={query ? "No contacts found" : "No contacts yet. Tap plus to add your first contact"} testID="contacts-empty-state">
           <Ionicons name="people-outline" size={56} color={colors.textMuted} />
           <Text style={styles.emptyText}>
             {query ? "No contacts found" : "No contacts yet"}
@@ -83,6 +87,9 @@ export default function ContactsScreen() {
         style={styles.fab}
         onPress={() => router.push("/contact/new")}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Add new contact"
+        testID="contacts-fab"
       >
         <Ionicons name="add" size={28} color="#fff" />
       </TouchableOpacity>

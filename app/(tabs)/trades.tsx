@@ -50,6 +50,10 @@ export default function TradesScreen() {
               ]}
               onPress={() => setFilter(f)}
               activeOpacity={0.7}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: isActive }}
+              accessibilityLabel={`Filter: ${f === "all" ? "All" : f.replace("_", " ")}`}
+              testID={`trades-filter-${f}`}
             >
               <Text style={[styles.filterText, isActive && styles.filterTextActive]}>
                 {f === "all" ? "All" : f.replace("_", " ")}
@@ -78,6 +82,9 @@ export default function TradesScreen() {
               style={styles.tradeRow}
               onPress={() => router.push(`/trade/${item.id}`)}
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={`${item.type.toUpperCase()} ${item.sats_amount.toLocaleString()} sats, ${item.fiat_amount} ${item.fiat_currency} with ${item.contact_name}, ${item.status.replace("_", " ")}`}
+              testID={`trades-row-${item.id}`}
             >
               <View style={[styles.statusDot, { backgroundColor: statusColors[item.status] || colors.textMuted }]} />
               <View style={styles.tradeInfo}>
@@ -102,6 +109,9 @@ export default function TradesScreen() {
         style={styles.fab}
         onPress={() => router.push("/trade/new")}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Add new trade"
+        testID="trades-fab"
       >
         <Ionicons name="add" size={28} color="#fff" />
       </TouchableOpacity>
