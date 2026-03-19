@@ -41,15 +41,22 @@ The planning phase SHALL use the appropriate review skill based on what the chan
 - **THEN** the developer SHALL run all three reviews in sequence: CEO → Eng → Design
 
 ### Requirement: Build phase produces OpenSpec artifacts
-Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema.
+Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main. Work SHALL remain local (uncommitted to remote) until archive.
 
 #### Scenario: Creating a new change
-- **WHEN** work begins on a feature
-- **THEN** run `/opsx:propose` to create the change with proposal, design, specs, and tasks
+- **WHEN** work begins on a feature via `/opsx:propose`
+- **THEN** the workflow SHALL first run `git checkout main && git pull && git checkout -b opsx/<change-name>`
+- **AND** then create the change with proposal, design, specs, and tasks
+- **AND** the artifacts SHALL NOT be committed or pushed automatically
+
+#### Scenario: Branch already exists
+- **WHEN** `/opsx:propose` detects that `opsx/<change-name>` already exists
+- **THEN** the workflow SHALL ask the developer whether to reuse the existing branch or create a fresh one
 
 #### Scenario: Implementing tasks
 - **WHEN** artifacts are complete and tasks are ready
 - **THEN** run `/opsx:apply` to work through tasks systematically
+- **AND** work SHALL remain local — no automatic push
 
 #### Scenario: Exploring before committing
 - **WHEN** requirements are unclear or multiple approaches exist
@@ -86,8 +93,14 @@ Shipping SHALL be automated end-to-end with documentation and retrospective clos
 - **THEN** run `/retro` to analyze commit history and work patterns
 
 #### Scenario: Archiving completed changes
-- **WHEN** a change is fully shipped
-- **THEN** run `/opsx:archive` to sync delta specs and move the change to archive
+- **WHEN** a change is fully shipped and `/opsx:archive` is run
+- **THEN** all uncommitted work SHALL be staged, committed, and pushed to origin
+- **AND** delta specs SHALL be synced to main specs
+- **AND** the change directory SHALL be moved to archive
+
+#### Scenario: Archive with nothing to push
+- **WHEN** all work was already committed and pushed manually
+- **THEN** `/opsx:archive` SHALL skip the push step gracefully
 
 ### Requirement: Planning phase includes domain-specific review roles
 The Planning phase SHALL include two additional optional review roles for Bitcoin-domain changes.

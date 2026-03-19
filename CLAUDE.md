@@ -14,6 +14,12 @@ Full specs: `openspec/specs/gstack-lifecycle/`, `openspec/specs/review-gates/`, 
 |-------|--------|-------------|
 | **Plan** | `/plan-ceo-review`, `/plan-bitcoiner-review`, `/plan-cypherpunk-review`, `/plan-eng-review`, `/plan-automation-tester-review`, `/plan-a11y-auditor-review`, `/plan-design-review`, `/design-consultation` | Before implementation — scope, sovereignty, security, architecture, testing, accessibility, design |
 | **Build** | `/opsx:propose`, `/opsx:apply`, `/opsx:explore` | Create OpenSpec change, implement tasks, explore ideas |
+
+#### Build Phase: Branch Convention
+
+- `/opsx:propose` SHALL create a new branch `opsx/<change-name>` from latest main before generating artifacts. Work stays local — no automatic commit or push.
+- `/opsx:apply` works locally — no automatic push.
+- `/opsx:archive` SHALL commit all uncommitted work and push the branch to origin as the final step.
 | **Verify** | `/qa`, `/qa-only`, `/design-review`, `/review`, `/browse` | After implementation — functional, visual, and code safety |
 | **Ship** | `/ship`, `/document-release`, `/retro`, `/opsx:archive` | Release, update docs, retrospect, archive change |
 
