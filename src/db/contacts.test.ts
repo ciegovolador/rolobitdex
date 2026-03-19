@@ -1,11 +1,11 @@
-import { initMockDb, mockRows } from "./setup";
+import { initMockDb, mockRows } from "../test/setup";
 import {
   getAllContacts, searchContacts, getContact,
   createContact, updateContact, deleteContact,
   getAliases, createAlias, updateAlias, deleteAlias,
   getAddresses, createAddress, updateAddress, deleteAddress,
   getTrustNotes, createTrustNote, updateTrustNote, deleteTrustNote,
-} from "../src/db/contacts";
+} from "./contacts";
 
 beforeEach(() => {
   initMockDb();

@@ -11,16 +11,16 @@ The project SHALL include a README.md with prerequisites, installation steps, an
 - **WHEN** a new developer clones the repo and follows the README
 - **THEN** they can install dependencies and launch the app on at least one platform
 
-### Requirement: Test suite with coverage
-The project SHALL include a Jest test suite that covers the database layer and utility modules, with a coverage report script.
+### Requirement: Jest test discovery
+Jest SHALL discover tests from `src/` directory instead of `__tests__/`. The configuration roots SHALL be set to `["<rootDir>/src"]` with testMatch `["**/*.test.ts", "**/*.test.tsx"]`.
 
-#### Scenario: Run tests
-- **WHEN** developer runs `npm test`
-- **THEN** all tests execute and results are displayed
+#### Scenario: Run all tests
+- **WHEN** the developer runs `npm test`
+- **THEN** Jest finds and runs all `*.test.ts` files within `src/`
 
-#### Scenario: Generate coverage report
-- **WHEN** developer runs `npm run test:coverage`
-- **THEN** a coverage report is generated showing line, branch, and function coverage
+#### Scenario: Coverage collection
+- **WHEN** the developer runs `npm run test:coverage`
+- **THEN** Jest collects coverage from `src/**/*.{ts,tsx}` excluding test files and type declarations
 
 ### Requirement: Database layer test coverage
 The test suite SHALL include tests for contacts CRUD, banking aliases, silent payment addresses, trust notes, and trade lifecycle operations.

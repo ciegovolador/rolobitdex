@@ -1,5 +1,5 @@
-import { initMockDb, mockRows, mockFileStorage } from "./setup";
-import { exportData, xorEncrypt, xorDecrypt, exportEncryptedBackup, importEncryptedBackup } from "../src/lib/backup";
+import { initMockDb, mockRows, mockFileStorage } from "../test/setup";
+import { exportData, xorEncrypt, xorDecrypt, exportEncryptedBackup, importEncryptedBackup } from "./backup";
 
 beforeEach(() => {
   initMockDb();
