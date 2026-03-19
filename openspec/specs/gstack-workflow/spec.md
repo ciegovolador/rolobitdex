@@ -52,7 +52,7 @@ The three plan review skills serve different purposes and SHALL be selected base
 
 ### Requirement: Implementation phase produces OpenSpec artifacts
 
-Every non-trivial change SHALL be tracked as an OpenSpec change with the spec-driven schema. Claude SHALL work autonomously through the full lifecycle, using all relevant tools without waiting for manual skill invocations.
+Every non-trivial change SHALL be tracked as an OpenSpec change with the spec-driven schema. Claude SHALL work autonomously through the full lifecycle, using all relevant tools without waiting for manual skill invocations. Work SHALL remain local (uncommitted to remote) until archive.
 
 #### Scenario: Autonomous propose workflow
 - **WHEN** work begins on a feature via `/opsx:propose`

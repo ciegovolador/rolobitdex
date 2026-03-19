@@ -41,7 +41,7 @@ The planning phase SHALL use the appropriate review skill based on what the chan
 - **THEN** the developer SHALL run all three reviews in sequence: CEO → Eng → Design
 
 ### Requirement: Build phase produces OpenSpec artifacts
-Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main. Before generating artifacts, Claude SHALL automatically analyze the change scope and run all relevant plan reviews.
+Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main. Before generating artifacts, Claude SHALL automatically analyze the change scope and run all relevant plan reviews. Work SHALL remain local (uncommitted to remote) until archive.
 
 #### Scenario: Creating a new change with autonomous reviews
 - **WHEN** work begins on a feature via `/opsx:propose`
