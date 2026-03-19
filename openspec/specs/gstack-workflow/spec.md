@@ -58,7 +58,7 @@ Every non-trivial change SHALL be tracked as an OpenSpec change with the spec-dr
 - **WHEN** work begins on a feature via `/opsx:propose`
 - **THEN** Claude SHALL autonomously:
   1. Checkout main and pull latest: `git checkout main && git pull`
-  2. Determine SCOPE (`feature`, `bugfix`, `hotfix`, `release`) from the change description
+  2. Determine SCOPE (`feature`, `bugfix`, `hotfix`, `release`, `spec`) from the change description
   3. Find next IP number by scanning branches, create branch: `git checkout -b SCOPE/IP-NUMBER-DESCRIPTION`
   4. Detect change scope for plan reviews
   5. Run all relevant plan reviews (eng, ceo, bitcoiner, cypherpunk, automation, a11y, design — based on scope)
@@ -72,6 +72,7 @@ Every non-trivial change SHALL be tracked as an OpenSpec change with the spec-dr
   - `bugfix/IP-002-fix-trade-status`
   - `hotfix/IP-003-backup-crash`
   - `release/IP-004-v1-0-0`
+  - `spec/IP-005-update-workflow-docs`
 
 #### Scenario: Branch name collision
 - **WHEN** the target `SCOPE/IP-NUMBER-DESCRIPTION` branch already exists

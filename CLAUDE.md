@@ -25,10 +25,10 @@ Claude SHALL work as an autonomous company — running the full lifecycle for ev
 When `/opsx:propose` is invoked, Claude SHALL automatically:
 1. **Branch**: Create branch using `SCOPE/IP-NUMBER-DESCRIPTION` convention:
    - `git checkout main && git pull`
-   - Determine SCOPE from change description: `feature` (new functionality), `bugfix` (fix broken behavior), `hotfix` (urgent production fix), `release` (version/release prep). Default: `feature`.
+   - Determine SCOPE from change description: `feature` (new functionality), `bugfix` (fix broken behavior), `hotfix` (urgent production fix), `release` (version/release prep), `spec` (specs, docs, or workflow definitions only). Default: `feature`.
    - Find next IP number: scan `git branch -a` for highest `IP-\d+`, increment, zero-pad to 3 digits (001, 002, ...). Start at 001 if none exist.
    - `git checkout -b SCOPE/IP-NUMBER-DESCRIPTION`
-   - Examples: `feature/IP-001-branch-naming`, `bugfix/IP-002-fix-trade-status`, `hotfix/IP-003-backup-crash`
+   - Examples: `feature/IP-001-branch-naming`, `bugfix/IP-002-fix-trade-status`, `hotfix/IP-003-backup-crash`, `spec/IP-005-update-workflow-docs`
 2. **Plan Reviews**: Analyze the change description and run ALL relevant reviews:
    - **Always**: `/plan-eng-review`
    - **If UI** (components, screens, styles): `/plan-design-review` + `/plan-a11y-auditor-review`
@@ -37,6 +37,7 @@ When `/opsx:propose` is invoked, Claude SHALL automatically:
    - **If Testable** (user flows, DB operations, test files): `/plan-automation-tester-review`
    - **If Product** (new features, scope changes, business decisions): `/plan-ceo-review`
 3. **Build**: Generate OpenSpec artifacts (proposal, design, specs, tasks)
+4. **Track**: Add entry to `IP-INDEX.md` with status `Active` (create file if it doesn't exist)
 
 Work stays local — no commit or push.
 
@@ -47,8 +48,9 @@ Claude works through all tasks using all necessary tools (Bash, Read, Write, Edi
 When `/opsx:archive` is invoked, Claude SHALL:
 1. Sync delta specs to main specs
 2. Move change to archive
-3. Commit all uncommitted work
-4. Push branch to origin
+3. Update `IP-INDEX.md` status to `Merged`
+4. Commit all uncommitted work
+5. Push branch to origin
 
 ### Skill Chaining Patterns
 

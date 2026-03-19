@@ -65,7 +65,7 @@ Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-d
 #### Scenario: Branch naming format
 - **WHEN** a branch is created for a change
 - **THEN** it SHALL follow `SCOPE/IP-NUMBER-DESCRIPTION` where:
-  - SCOPE is one of: `feature`, `bugfix`, `hotfix`, `release`
+  - SCOPE is one of: `feature`, `bugfix`, `hotfix`, `release`, `spec`
   - IP is the literal string "IP" (Improvement Proposal)
   - NUMBER is a zero-padded auto-incremented integer (e.g., 001, 002, 012)
   - DESCRIPTION is a short kebab-case summary of the change
@@ -77,6 +77,7 @@ Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-d
   - `bugfix` for fixing broken behavior or correcting errors
   - `hotfix` for urgent production fixes
   - `release` for version bumps or release preparation
+  - `spec` for changes that only modify specs, documentation, or workflow definitions
   - Default to `feature` if ambiguous
 
 #### Scenario: Branch already exists
