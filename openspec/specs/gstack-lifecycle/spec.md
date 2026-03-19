@@ -41,13 +41,26 @@ The planning phase SHALL use the appropriate review skill based on what the chan
 - **THEN** the developer SHALL run all three reviews in sequence: CEO → Eng → Design
 
 ### Requirement: Build phase produces OpenSpec artifacts
-Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main. Work SHALL remain local (uncommitted to remote) until archive.
+Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main. Before generating artifacts, Claude SHALL automatically analyze the change scope and run all relevant plan reviews. Work SHALL remain local (uncommitted to remote) until archive.
 
-#### Scenario: Creating a new change
+#### Scenario: Creating a new change with autonomous reviews
 - **WHEN** work begins on a feature via `/opsx:propose`
-- **THEN** the workflow SHALL first run `git checkout main && git pull && git checkout -b opsx/<change-name>`
-- **AND** then create the change with proposal, design, specs, and tasks
-- **AND** the artifacts SHALL NOT be committed or pushed automatically
+- **THEN** the workflow SHALL:
+  1. Create branch: `git checkout main && git pull && git checkout -b opsx/<change-name>`
+  2. Analyze the change description to determine scope (UI, Bitcoin, security, testing, product)
+  3. Run all relevant plan reviews automatically based on scope
+  4. Generate OpenSpec artifacts (proposal, design, specs, tasks)
+- **AND** artifacts SHALL NOT be committed or pushed automatically
+
+#### Scenario: Scope detection triggers correct reviews
+- **WHEN** Claude analyzes the change description
+- **THEN** it SHALL apply these rules:
+  - Always run `/plan-eng-review`
+  - If change touches UI components or screens → run `/plan-design-review` and `/plan-a11y-auditor-review`
+  - If change touches payments, addresses, trades, or Bitcoin protocol → run `/plan-bitcoiner-review`
+  - If change touches data storage, keys, cryptography, or networking → run `/plan-cypherpunk-review`
+  - If change touches testable user flows or database operations → run `/plan-automation-tester-review`
+  - If change involves product scope, new features, or business decisions → run `/plan-ceo-review`
 
 #### Scenario: Branch already exists
 - **WHEN** `/opsx:propose` detects that `opsx/<change-name>` already exists
@@ -93,7 +106,7 @@ Shipping SHALL be automated end-to-end with documentation and retrospective clos
 - **THEN** run `/retro` to analyze commit history and work patterns
 
 #### Scenario: Archiving completed changes
-- **WHEN** a change is fully shipped and `/opsx:archive` is run
+- **WHEN** a change is fully implemented and `/opsx:archive` is run
 - **THEN** all uncommitted work SHALL be staged, committed, and pushed to origin
 - **AND** delta specs SHALL be synced to main specs
 - **AND** the change directory SHALL be moved to archive

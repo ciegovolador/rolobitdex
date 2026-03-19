@@ -52,24 +52,27 @@ The three plan review skills serve different purposes and SHALL be selected base
 
 ### Requirement: Implementation phase produces OpenSpec artifacts
 
-Every non-trivial change SHALL be tracked as an OpenSpec change with the spec-driven schema. The implementation phase SHALL work locally without pushing to the remote.
+Every non-trivial change SHALL be tracked as an OpenSpec change with the spec-driven schema. Claude SHALL work autonomously through the full lifecycle, using all relevant tools without waiting for manual skill invocations. Work SHALL remain local (uncommitted to remote) until archive.
 
-#### Scenario: Creating a new change
+#### Scenario: Autonomous propose workflow
 - **WHEN** work begins on a feature via `/opsx:propose`
-- **THEN** the workflow SHALL:
+- **THEN** Claude SHALL autonomously:
   1. Checkout main and pull latest: `git checkout main && git pull`
   2. Create a new branch: `git checkout -b opsx/<change-name>`
-  3. Create the OpenSpec change with proposal, design, specs, and tasks
+  3. Detect change scope from the description
+  4. Run all relevant plan reviews (eng, ceo, bitcoiner, cypherpunk, automation, a11y, design — based on scope)
+  5. Create the OpenSpec change with proposal, design, specs, and tasks
 - **AND** no commit or push SHALL happen automatically
 
 #### Scenario: Branch name collision
 - **WHEN** the branch `opsx/<change-name>` already exists
 - **THEN** the workflow SHALL ask the developer to reuse the existing branch or pick a new name
 
-#### Scenario: Implementing tasks
+#### Scenario: Implementing tasks autonomously
 - **WHEN** tasks are ready for implementation
 - **THEN** use `/opsx:apply` to work through tasks systematically
 - **AND** mark each task complete as it is finished
+- **AND** use all necessary tools (Bash, Read, Write, Edit, Grep, Glob, Agent) without asking permission for each step
 - **AND** no automatic push to remote
 
 #### Scenario: Exploring before committing to a design

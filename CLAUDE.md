@@ -14,14 +14,36 @@ Full specs: `openspec/specs/gstack-lifecycle/`, `openspec/specs/review-gates/`, 
 |-------|--------|-------------|
 | **Plan** | `/plan-ceo-review`, `/plan-bitcoiner-review`, `/plan-cypherpunk-review`, `/plan-eng-review`, `/plan-automation-tester-review`, `/plan-a11y-auditor-review`, `/plan-design-review`, `/design-consultation` | Before implementation — scope, sovereignty, security, architecture, testing, accessibility, design |
 | **Build** | `/opsx:propose`, `/opsx:apply`, `/opsx:explore` | Create OpenSpec change, implement tasks, explore ideas |
-
-#### Build Phase: Branch Convention
-
-- `/opsx:propose` SHALL create a new branch `opsx/<change-name>` from latest main before generating artifacts. Work stays local — no automatic commit or push.
-- `/opsx:apply` works locally — no automatic push.
-- `/opsx:archive` SHALL commit all uncommitted work and push the branch to origin as the final step.
 | **Verify** | `/qa`, `/qa-only`, `/design-review`, `/review`, `/browse` | After implementation — functional, visual, and code safety |
 | **Ship** | `/ship`, `/document-release`, `/retro`, `/opsx:archive` | Release, update docs, retrospect, archive change |
+
+### Autonomous Workflow Convention
+
+Claude SHALL work as an autonomous company — running the full lifecycle for every change without waiting for manual skill invocations between phases.
+
+#### `/opsx:propose` — Full Pipeline Start
+When `/opsx:propose` is invoked, Claude SHALL automatically:
+1. **Branch**: `git checkout main && git pull && git checkout -b opsx/<change-name>`
+2. **Plan Reviews**: Analyze the change description and run ALL relevant reviews:
+   - **Always**: `/plan-eng-review`
+   - **If UI** (components, screens, styles): `/plan-design-review` + `/plan-a11y-auditor-review`
+   - **If Bitcoin** (payments, addresses, trades, protocol): `/plan-bitcoiner-review`
+   - **If Security** (data storage, keys, crypto, networking): `/plan-cypherpunk-review`
+   - **If Testable** (user flows, DB operations, test files): `/plan-automation-tester-review`
+   - **If Product** (new features, scope changes, business decisions): `/plan-ceo-review`
+3. **Build**: Generate OpenSpec artifacts (proposal, design, specs, tasks)
+
+Work stays local — no commit or push.
+
+#### `/opsx:apply` — Autonomous Implementation
+Claude works through all tasks using all necessary tools (Bash, Read, Write, Edit, Grep, Glob, Agent). No manual intervention required between tasks. Work stays local.
+
+#### `/opsx:archive` — Commit, Push & Close
+When `/opsx:archive` is invoked, Claude SHALL:
+1. Sync delta specs to main specs
+2. Move change to archive
+3. Commit all uncommitted work
+4. Push branch to origin
 
 ### Skill Chaining Patterns
 
