@@ -1,6 +1,6 @@
-import { initMockDb, mockRows } from "./setup";
-import { canTransition, createTrade, getAllTrades, getTrade, updateTradeStatus, getTradesByContact, cancelTrade } from "../src/db/trades";
-import { createContact } from "../src/db/contacts";
+import { initMockDb, mockRows } from "../test/setup";
+import { canTransition, createTrade, getAllTrades, getTrade, updateTradeStatus, getTradesByContact, cancelTrade } from "./trades";
+import { createContact } from "./contacts";
 
 beforeEach(() => {
   initMockDb();

@@ -1,4 +1,4 @@
-import { isValidSilentPaymentAddress } from "../src/lib/silentPayments";
+import { isValidSilentPaymentAddress } from "./silentPayments";
 
 // Mock SecureStore before importing getOrCreateAddress
 jest.mock("expo-secure-store", () => {
@@ -12,7 +12,7 @@ jest.mock("expo-secure-store", () => {
 });
 
 import * as SecureStore from "expo-secure-store";
-import { getOrCreateAddress, getAddress } from "../src/lib/silentPayments";
+import { getOrCreateAddress, getAddress } from "./silentPayments";
 
 beforeEach(() => {
   (SecureStore as any).__clear();
