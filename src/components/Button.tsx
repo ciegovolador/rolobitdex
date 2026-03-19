@@ -14,9 +14,10 @@ type ButtonProps = {
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
+  testID?: string;
 };
 
-export function Button({ title, onPress, variant = "primary", loading, disabled, style }: ButtonProps) {
+export function Button({ title, onPress, variant = "primary", loading, disabled, style, testID }: ButtonProps) {
   const scale = useSharedValue(1);
   const bgColor = variant === "primary" ? colors.primary : variant === "danger" ? colors.error : colors.surfaceLight;
 
@@ -38,6 +39,10 @@ export function Button({ title, onPress, variant = "primary", loading, disabled,
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       disabled={disabled || loading}
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      accessibilityState={{ disabled: !!(disabled || loading) }}
+      testID={testID}
     >
       <Animated.View
         style={[

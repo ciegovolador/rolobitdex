@@ -11,11 +11,12 @@ import { colors, spacing, fontSize, borderRadius, animation } from "../constants
 type InputProps = TextInputProps & {
   label?: string;
   error?: string;
+  testID?: string;
 };
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export function Input({ label, error, style, onFocus, onBlur, ...props }: InputProps) {
+export function Input({ label, error, style, onFocus, onBlur, testID, ...props }: InputProps) {
   const focus = useSharedValue(0);
 
   const borderStyle = useAnimatedStyle(() => ({
@@ -45,6 +46,9 @@ export function Input({ label, error, style, onFocus, onBlur, ...props }: InputP
           placeholderTextColor={colors.textMuted}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          accessibilityLabel={label || props.placeholder}
+          accessibilityHint={!label && props.placeholder ? `Enter ${props.placeholder.toLowerCase()}` : undefined}
+          testID={testID}
           {...props}
         />
       </AnimatedView>

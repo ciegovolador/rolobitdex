@@ -30,8 +30,8 @@ export default function NewContactScreen() {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: "New Contact", headerStyle: { backgroundColor: colors.surface }, headerTintColor: "#fff" }} />
-      <Input label="Name" placeholder="Contact name" value={name} onChangeText={setName} autoFocus />
-      <Button title="Save" onPress={handleSave} loading={loading} disabled={!name.trim()} />
+      <Input label="Name" placeholder="Contact name" value={name} onChangeText={setName} autoFocus testID="contact-new-name-input" />
+      <Button title="Save" onPress={handleSave} loading={loading} disabled={!name.trim()} testID="contact-new-save-btn" />
     </View>
   );
 }

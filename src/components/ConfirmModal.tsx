@@ -10,6 +10,7 @@ type ConfirmModalProps = {
   onConfirm: () => void;
   onCancel: () => void;
   variant?: "primary" | "danger";
+  testID?: string;
 };
 
 export function ConfirmModal({
@@ -20,11 +21,17 @@ export function ConfirmModal({
   onConfirm,
   onCancel,
   variant = "primary",
+  testID,
 }: ConfirmModalProps) {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.modal}>
+        <View
+          style={styles.modal}
+          accessibilityRole={variant === "danger" ? "alert" : undefined}
+          accessibilityLabel={`${title}. ${message}`}
+          testID={testID}
+        >
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{message}</Text>
           <View style={styles.actions}>

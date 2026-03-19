@@ -82,7 +82,7 @@ export default function TradeDetailScreen() {
                 {trade.type.toUpperCase()} BTC
               </Text>
             </View>
-            <View style={[styles.statusChip, { backgroundColor: tradeStatusColor + "20" }]}>
+            <View style={[styles.statusChip, { backgroundColor: tradeStatusColor + "20" }]} accessibilityLabel={`Status: ${trade.status.replace("_", " ")}`} testID="trade-detail-status-badge">
               <Text style={[styles.statusChipText, { color: tradeStatusColor }]}>
                 {trade.status.replace("_", " ").toUpperCase()}
               </Text>
@@ -95,14 +95,14 @@ export default function TradeDetailScreen() {
         </Card>
 
         {/* Progress steps */}
-        <View style={styles.steps}>
+        <View style={styles.steps} accessibilityLabel={`Trade progress: step ${currentIdx + 1} of ${STATUS_STEPS.length}, currently ${trade.status.replace("_", " ")}`} testID="trade-detail-progress">
           {STATUS_STEPS.map((step, i) => {
             const isCancelled = trade.status === "cancelled";
             const done = !isCancelled && i <= currentIdx;
             const isCurrent = !isCancelled && i === currentIdx;
             const dotColor = done ? statusColors[step] || colors.primary : colors.surfaceLight;
             return (
-              <View key={step} style={styles.step}>
+              <View key={step} style={styles.step} accessibilityLabel={`${step.replace("_", " ")}${isCurrent ? ", current step" : done ? ", completed" : ", upcoming"}`}>
                 <Animated.View
                   entering={isCurrent ? ZoomIn.duration(animation.normal) : FadeIn.duration(animation.fast)}
                   style={[styles.dot, { backgroundColor: dotColor }, isCurrent && styles.dotCurrent]}
@@ -128,6 +128,7 @@ export default function TradeDetailScreen() {
             <Button
               title={action.label}
               onPress={() => handleAdvance(action.next)}
+              testID="trade-detail-advance-btn"
             />
           )}
           {canTransition(trade.status, "cancelled") && (
@@ -136,6 +137,7 @@ export default function TradeDetailScreen() {
               variant="danger"
               onPress={handleCancel}
               style={{ marginTop: spacing.sm }}
+              testID="trade-detail-cancel-btn"
             />
           )}
         </View>

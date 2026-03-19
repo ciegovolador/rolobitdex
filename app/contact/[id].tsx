@@ -153,7 +153,7 @@ export default function ContactDetailScreen() {
             </View>
           </View>
         ) : (
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => setEditingName(true)}>
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => setEditingName(true)} accessibilityRole="button" accessibilityLabel={`${contact.name}, tap to edit name`} testID="contact-detail-name">
             <Text style={styles.name}>{contact.name}</Text>
             <Text style={styles.hint}>Tap to edit</Text>
           </TouchableOpacity>
@@ -170,7 +170,7 @@ export default function ContactDetailScreen() {
               <Text style={styles.itemSub}>{a.account_identifier}</Text>
               {a.label && <Text style={styles.itemLabel}>{a.label}</Text>}
             </View>
-            <TouchableOpacity onPress={() => handleDeleteAlias(a.id)}>
+            <TouchableOpacity onPress={() => handleDeleteAlias(a.id)} accessibilityRole="button" accessibilityLabel={`Delete alias ${a.bank_name}`} accessibilityHint="Double tap to delete this banking alias" testID={`contact-alias-delete-${a.id}`}>
               <Ionicons name="trash-outline" size={20} color={colors.error} />
             </TouchableOpacity>
           </View>
@@ -200,7 +200,7 @@ export default function ContactDetailScreen() {
               <Text style={styles.itemSub} numberOfLines={1} ellipsizeMode="middle">{a.address}</Text>
               {a.label && <Text style={styles.itemLabel}>{a.label}</Text>}
             </View>
-            <TouchableOpacity onPress={() => handleDeleteAddress(a.id)}>
+            <TouchableOpacity onPress={() => handleDeleteAddress(a.id)} accessibilityRole="button" accessibilityLabel="Delete address" accessibilityHint="Double tap to delete this silent payment address" testID={`contact-addr-delete-${a.id}`}>
               <Ionicons name="trash-outline" size={20} color={colors.error} />
             </TouchableOpacity>
           </View>
@@ -226,7 +226,7 @@ export default function ContactDetailScreen() {
         <Card key={n.id} style={styles.itemCard}>
           <View style={styles.itemRow}>
             <Text style={[styles.itemSub, { flex: 1 }]}>{n.note}</Text>
-            <TouchableOpacity onPress={() => handleDeleteNote(n.id)}>
+            <TouchableOpacity onPress={() => handleDeleteNote(n.id)} accessibilityRole="button" accessibilityLabel="Delete note" accessibilityHint="Double tap to delete this trust note" testID={`contact-note-delete-${n.id}`}>
               <Ionicons name="trash-outline" size={20} color={colors.error} />
             </TouchableOpacity>
           </View>
@@ -252,7 +252,7 @@ export default function ContactDetailScreen() {
         addLabel="New Trade"
       />
       {trades.slice(0, 5).map((t) => (
-        <TouchableOpacity key={t.id} onPress={() => router.push(`/trade/${t.id}`)}>
+        <TouchableOpacity key={t.id} onPress={() => router.push(`/trade/${t.id}`)} accessibilityRole="button" accessibilityLabel={`${t.type.toUpperCase()} ${t.sats_amount.toLocaleString()} sats, ${t.fiat_amount} ${t.fiat_currency}, ${t.status}`} testID={`contact-trade-${t.id}`}>
           <Card style={styles.itemCard}>
             <View style={styles.itemRow}>
               <View style={{ flex: 1 }}>
@@ -278,6 +278,7 @@ export default function ContactDetailScreen() {
         variant="danger"
         onPress={() => setShowDelete(true)}
         style={{ marginTop: spacing.xl }}
+        testID="contact-detail-delete-btn"
       />
 
       <ConfirmModal
@@ -288,6 +289,7 @@ export default function ContactDetailScreen() {
         variant="danger"
         onConfirm={handleDelete}
         onCancel={() => setShowDelete(false)}
+        testID="contact-detail-delete-modal"
       />
     </ScrollView>
   );

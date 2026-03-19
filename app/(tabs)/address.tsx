@@ -46,12 +46,12 @@ export default function AddressScreen() {
         <Text style={styles.subtitle}>Share this address to receive Bitcoin payments</Text>
 
         <Card style={styles.qrCard} level={2}>
-          <View style={styles.qrContainer}>
+          <View style={styles.qrContainer} accessibilityLabel="QR code for your Silent Payment address" testID="address-qr-code">
             <QRCode value={address} size={200} backgroundColor="white" color="black" />
           </View>
         </Card>
 
-        <TouchableOpacity onPress={handleCopy} style={styles.addressBox} activeOpacity={0.7}>
+        <TouchableOpacity onPress={handleCopy} style={styles.addressBox} activeOpacity={0.7} accessibilityRole="button" accessibilityLabel={`Silent Payment address: ${address}. Tap to copy`} testID="address-copy-box">
           <Text style={styles.address} numberOfLines={3} ellipsizeMode="middle">
             {address}
           </Text>
@@ -64,9 +64,9 @@ export default function AddressScreen() {
         {copied && <Text style={styles.copiedText}>Copied to clipboard!</Text>}
 
         <View style={styles.actions}>
-          <Button title="Copy Address" onPress={handleCopy} variant="secondary" style={{ flex: 1 }} />
+          <Button title="Copy Address" onPress={handleCopy} variant="secondary" style={{ flex: 1 }} testID="address-copy-btn" />
           <View style={{ width: spacing.sm }} />
-          <Button title="Share" onPress={handleShare} style={{ flex: 1 }} />
+          <Button title="Share" onPress={handleShare} style={{ flex: 1 }} testID="address-share-btn" />
         </View>
       </View>
     </View>

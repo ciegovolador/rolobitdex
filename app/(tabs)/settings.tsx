@@ -94,6 +94,10 @@ export default function SettingsScreen() {
               disabled={!biometricAvailable}
               trackColor={{ true: colors.primary, false: colors.surfaceLight }}
               thumbColor="#fff"
+              accessibilityRole="switch"
+              accessibilityState={{ checked: biometricEnabled, disabled: !biometricAvailable }}
+              accessibilityLabel="Biometric Lock"
+              testID="settings-biometric-switch"
             />
           </View>
         </Card>
@@ -114,6 +118,7 @@ export default function SettingsScreen() {
               title={showExport ? "Cancel" : "Export Backup"}
               onPress={() => setShowExport(!showExport)}
               variant="secondary"
+              testID="settings-export-btn"
             />
           </View>
           {showExport && (
@@ -124,8 +129,9 @@ export default function SettingsScreen() {
                 value={passphrase}
                 onChangeText={setPassphrase}
                 secureTextEntry
+                testID="settings-passphrase-input"
               />
-              <Button title="Export" onPress={handleExport} loading={exporting} disabled={!passphrase.trim()} />
+              <Button title="Export" onPress={handleExport} loading={exporting} disabled={!passphrase.trim()} testID="settings-export-confirm-btn" />
             </View>
           )}
         </Card>
