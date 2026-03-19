@@ -41,12 +41,12 @@ The planning phase SHALL use the appropriate review skill based on what the chan
 - **THEN** the developer SHALL run all three reviews in sequence: CEO → Eng → Design
 
 ### Requirement: Build phase produces OpenSpec artifacts
-Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main. Before generating artifacts, Claude SHALL automatically analyze the change scope and run all relevant plan reviews. Work SHALL remain local (uncommitted to remote) until archive.
+Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-driven schema. The Build phase SHALL begin by creating a new branch from the latest main using the `SCOPE/IP-NUMBER-DESCRIPTION` naming convention. Before generating artifacts, Claude SHALL automatically analyze the change scope and run all relevant plan reviews. Work SHALL remain local (uncommitted to remote) until archive.
 
 #### Scenario: Creating a new change with autonomous reviews
 - **WHEN** work begins on a feature via `/opsx:propose`
 - **THEN** the workflow SHALL:
-  1. Create branch: `git checkout main && git pull && git checkout -b opsx/<change-name>`
+  1. Determine SCOPE and next IP number, create branch: `git checkout main && git pull && git checkout -b SCOPE/IP-NUMBER-DESCRIPTION`
   2. Analyze the change description to determine scope (UI, Bitcoin, security, testing, product)
   3. Run all relevant plan reviews automatically based on scope
   4. Generate OpenSpec artifacts (proposal, design, specs, tasks)
@@ -62,8 +62,25 @@ Every non-trivial change SHALL be tracked as an OpenSpec change using the spec-d
   - If change touches testable user flows or database operations → run `/plan-automation-tester-review`
   - If change involves product scope, new features, or business decisions → run `/plan-ceo-review`
 
+#### Scenario: Branch naming format
+- **WHEN** a branch is created for a change
+- **THEN** it SHALL follow `SCOPE/IP-NUMBER-DESCRIPTION` where:
+  - SCOPE is one of: `feature`, `bugfix`, `hotfix`, `release`
+  - IP is the literal string "IP" (Improvement Proposal)
+  - NUMBER is a zero-padded auto-incremented integer (e.g., 001, 002, 012)
+  - DESCRIPTION is a short kebab-case summary of the change
+
+#### Scenario: Scope auto-detection
+- **WHEN** Claude analyzes the change description
+- **THEN** it SHALL determine the scope:
+  - `feature` for new functionality, capabilities, or workflows
+  - `bugfix` for fixing broken behavior or correcting errors
+  - `hotfix` for urgent production fixes
+  - `release` for version bumps or release preparation
+  - Default to `feature` if ambiguous
+
 #### Scenario: Branch already exists
-- **WHEN** `/opsx:propose` detects that `opsx/<change-name>` already exists
+- **WHEN** `/opsx:propose` detects that the target `SCOPE/IP-NUMBER-DESCRIPTION` branch already exists
 - **THEN** the workflow SHALL ask the developer whether to reuse the existing branch or create a fresh one
 
 #### Scenario: Implementing tasks
@@ -161,8 +178,9 @@ Before implementation begins, the developer SHALL create a new branch from the l
 
 #### Scenario: Starting a new feature
 - **WHEN** a developer begins work on a new change
-- **THEN** they SHALL run `git checkout main && git pull && git checkout -b <branch-name>`
-- **AND** the branch name SHALL use kebab-case describing the change (e.g., `add-automation-tester-role`)
+- **THEN** they SHALL run `git checkout main && git pull && git checkout -b SCOPE/IP-NUMBER-DESCRIPTION`
+- **AND** the branch name SHALL follow the convention: SCOPE (`feature`, `bugfix`, `hotfix`, `release`) / IP-NUMBER (auto-incremented, zero-padded) - DESCRIPTION (kebab-case summary)
+- **AND** examples: `feature/IP-001-branch-naming`, `bugfix/IP-002-fix-trade-status`
 
 #### Scenario: Continuing work on an existing branch
 - **WHEN** a developer returns to in-progress work

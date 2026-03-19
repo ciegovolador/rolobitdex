@@ -23,7 +23,12 @@ Claude SHALL work as an autonomous company — running the full lifecycle for ev
 
 #### `/opsx:propose` — Full Pipeline Start
 When `/opsx:propose` is invoked, Claude SHALL automatically:
-1. **Branch**: `git checkout main && git pull && git checkout -b opsx/<change-name>`
+1. **Branch**: Create branch using `SCOPE/IP-NUMBER-DESCRIPTION` convention:
+   - `git checkout main && git pull`
+   - Determine SCOPE from change description: `feature` (new functionality), `bugfix` (fix broken behavior), `hotfix` (urgent production fix), `release` (version/release prep). Default: `feature`.
+   - Find next IP number: scan `git branch -a` for highest `IP-\d+`, increment, zero-pad to 3 digits (001, 002, ...). Start at 001 if none exist.
+   - `git checkout -b SCOPE/IP-NUMBER-DESCRIPTION`
+   - Examples: `feature/IP-001-branch-naming`, `bugfix/IP-002-fix-trade-status`, `hotfix/IP-003-backup-crash`
 2. **Plan Reviews**: Analyze the change description and run ALL relevant reviews:
    - **Always**: `/plan-eng-review`
    - **If UI** (components, screens, styles): `/plan-design-review` + `/plan-a11y-auditor-review`
