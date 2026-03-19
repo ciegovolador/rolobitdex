@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.3] - 2026-03-19
+
+### Changed
+- Branch naming convention updated from `opsx/<change-name>` to `SCOPE/IP-NUMBER-DESCRIPTION` (e.g., `feature/IP-001-branch-naming`)
+- Scope auto-detection: Claude determines branch scope (`feature`, `bugfix`, `hotfix`, `release`) from change description
+- IP numbers auto-increment by scanning existing branches, zero-padded to 3 digits
+- Updated gstack-lifecycle and gstack-workflow specs with new branch naming format
+
 ## [0.0.2] - 2026-03-18
 
 ### Added
