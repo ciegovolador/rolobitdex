@@ -17,6 +17,18 @@ Full specs: `openspec/specs/gstack-lifecycle/`, `openspec/specs/review-gates/`, 
 | **Verify** | `/qa`, `/qa-only`, `/design-review`, `/review`, `/browse` | After implementation — functional, visual, and code safety |
 | **Ship** | `/ship`, `/document-release`, `/retro`, `/opsx:archive` | Release, update docs, retrospect, archive change |
 
+### Build in Isolation (Frontend)
+
+All new frontend component work MUST start in Storybook. The workflow:
+1. Create the component and its `.stories.tsx` file in `src/components/`
+2. Run `npm run storybook` (port 6006) and verify the component renders correctly in isolation
+3. Only then integrate the component into app screens
+4. When modifying existing components, verify changes in Storybook before checking app integration
+
+Every interactive component in `src/components/` SHALL have a colocated `.stories.tsx` file. Components with controlled state (e.g., modals) SHALL use a `render` function with local state in their story.
+
+Spec: `openspec/specs/storybook-dev-workflow/`
+
 ### Autonomous Workflow Convention
 
 Claude SHALL work as an autonomous company — running the full lifecycle for every change without waiting for manual skill invocations between phases.

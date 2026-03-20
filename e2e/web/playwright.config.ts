@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import path from 'path';
 
 export default defineConfig({
   testDir: '.',
@@ -11,7 +12,8 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'npx expo start --web --port 8081',
+    command: 'BROWSER=none npx expo start --web --port 8081',
+    cwd: path.resolve(__dirname, '../..'),
     port: 8081,
     timeout: 60_000,
     reuseExistingServer: true,

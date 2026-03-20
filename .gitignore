@@ -50,3 +50,7 @@ playwright-report/
 
 # claude skills (vendored tooling)
 .claude/skills/
+
+*storybook.log
+storybook-static
+.rnstorybook/storybook.requires.ts
