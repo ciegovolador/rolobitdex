@@ -5,19 +5,22 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Pressable } from "react-native";
-import { colors, spacing, fontSize, borderRadius, animation, elevation } from "../constants/theme";
+import { useTheme } from "../design";
 
 type ButtonProps = {
   title: string;
   onPress: () => void;
   variant?: "primary" | "secondary" | "danger";
+  size?: "sm" | "md" | "lg";
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
   testID?: string;
 };
 
-export function Button({ title, onPress, variant = "primary", loading, disabled, style, testID }: ButtonProps) {
+export function Button({ title, onPress, variant = "primary", size = "md", loading, disabled, style, testID }: ButtonProps) {
+  const { tokens } = useTheme();
+  const { colors, spacing, borderRadius, animation, elevation } = tokens;
   const scale = useSharedValue(1);
   const bgColor = variant === "primary" ? colors.primary : variant === "danger" ? colors.error : colors.surfaceLight;
 
@@ -33,6 +36,26 @@ export function Button({ title, onPress, variant = "primary", loading, disabled,
     scale.value = withTiming(1, { duration: animation.fast });
   }
 
+  const sizeConfig = {
+    sm: {
+      paddingVertical: spacing.xs + 2,
+      paddingHorizontal: spacing.sm,
+      fontSize: tokens.fontSize.sm,
+    },
+    md: {
+      paddingVertical: spacing.sm + 4,
+      paddingHorizontal: spacing.lg,
+      fontSize: tokens.fontSize.lg,
+    },
+    lg: {
+      paddingVertical: spacing.md,
+      paddingHorizontal: tokens.spacing.xl,
+      fontSize: tokens.fontSize.xl,
+    },
+  };
+
+  const textColor = variant === "primary" ? colors.onPrimary : colors.text;
+
   return (
     <Pressable
       onPress={onPress}
@@ -46,33 +69,26 @@ export function Button({ title, onPress, variant = "primary", loading, disabled,
     >
       <Animated.View
         style={[
-          styles.button,
-          { backgroundColor: bgColor, opacity: disabled ? 0.5 : 1, boxShadow: elevation[1] } as any,
+          {
+            ...sizeConfig[size],
+            borderRadius: borderRadius.md,
+            backgroundColor: bgColor,
+            opacity: disabled ? 0.5 : 1,
+            alignItems: "center",
+            justifyContent: "center",
+          },
           animatedStyle,
           style,
         ]}
       >
         {loading ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={textColor} />
         ) : (
-          <Text style={styles.text}>{title}</Text>
+          <Text style={{ color: textColor, fontSize: sizeConfig[size].fontSize, fontWeight: "600" }}>
+            {title}
+          </Text>
         )}
       </Animated.View>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    paddingVertical: spacing.sm + 4,
-    paddingHorizontal: spacing.lg,
-    borderRadius: borderRadius.md,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: colors.text,
-    fontSize: fontSize.lg,
-    fontWeight: "600",
-  },
-});

@@ -1,5 +1,5 @@
-import { View, StyleSheet, ViewStyle } from "react-native";
-import { colors, spacing, borderRadius, elevation } from "../constants/theme";
+import { View, ViewStyle } from "react-native";
+import { useTheme } from "../design";
 
 type CardProps = {
   children: React.ReactNode;
@@ -10,9 +10,22 @@ type CardProps = {
 };
 
 export function Card({ children, style, level = 1, accessibilityRole, testID }: CardProps) {
+  const { tokens } = useTheme();
+  const { colors, spacing, borderRadius, elevation } = tokens;
+
   return (
     <View
-      style={[styles.card, { boxShadow: elevation[level] } as any, style]}
+      style={[
+        {
+          backgroundColor: colors.surface,
+          borderRadius: borderRadius.lg,
+          padding: spacing.md,
+          borderWidth: 1,
+          borderColor: colors.border,
+          boxShadow: elevation[level],
+        } as any,
+        style,
+      ]}
       accessibilityRole={accessibilityRole}
       testID={testID}
     >
@@ -20,13 +33,3 @@ export function Card({ children, style, level = 1, accessibilityRole, testID }: 
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: borderRadius.lg,
-    padding: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-});

@@ -2,13 +2,14 @@ import { useWindowDimensions } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { colors, breakpoints } from "../src/constants/theme";
+import { ThemeProvider } from "../src/design";
 
 export default function RootLayout() {
   const { width } = useWindowDimensions();
   const isDesktop = width >= breakpoints.tablet;
 
   return (
-    <>
+    <ThemeProvider initialTheme="dark">
       <StatusBar style="light" />
       <Stack
         screenOptions={{
@@ -68,6 +69,6 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-    </>
+    </ThemeProvider>
   );
 }
