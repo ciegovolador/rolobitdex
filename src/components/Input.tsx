@@ -6,7 +6,7 @@ import Animated, {
   withTiming,
   interpolateColor,
 } from "react-native-reanimated";
-import { colors, spacing, fontSize, borderRadius, animation } from "../constants/theme";
+import { useTheme } from "../design";
 
 type InputProps = TextInputProps & {
   label?: string;
@@ -17,6 +17,8 @@ type InputProps = TextInputProps & {
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 export function Input({ label, error, style, onFocus, onBlur, testID, ...props }: InputProps) {
+  const { tokens } = useTheme();
+  const { colors, spacing, fontSize, borderRadius, animation } = tokens;
   const focus = useSharedValue(0);
 
   const borderStyle = useAnimatedStyle(() => ({
@@ -38,11 +40,33 @@ export function Input({ label, error, style, onFocus, onBlur, testID, ...props }
   }
 
   return (
-    <View style={styles.container}>
-      {label && <Text style={styles.label}>{label}</Text>}
-      <AnimatedView style={[styles.inputWrapper, borderStyle]}>
+    <View style={{ marginBottom: spacing.md }}>
+      {label && (
+        <Text style={{ color: colors.textSecondary, fontSize: fontSize.sm, marginBottom: spacing.xs }}>
+          {label}
+        </Text>
+      )}
+      <AnimatedView
+        style={[
+          {
+            backgroundColor: colors.surface,
+            borderWidth: 1.5,
+            borderColor: colors.border,
+            borderRadius: borderRadius.md,
+          },
+          borderStyle,
+        ]}
+      >
         <TextInput
-          style={[styles.input, style]}
+          style={[
+            {
+              color: colors.text,
+              paddingVertical: spacing.sm + 2,
+              paddingHorizontal: spacing.md,
+              fontSize: fontSize.md,
+            },
+            style,
+          ]}
           placeholderTextColor={colors.textMuted}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -52,25 +76,11 @@ export function Input({ label, error, style, onFocus, onBlur, testID, ...props }
           {...props}
         />
       </AnimatedView>
-      {error && <Text style={styles.error}>{error}</Text>}
+      {error && (
+        <Text style={{ color: colors.error, fontSize: fontSize.sm, marginTop: spacing.xs }}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { marginBottom: spacing.md },
-  label: { color: colors.textSecondary, fontSize: fontSize.sm, marginBottom: spacing.xs },
-  inputWrapper: {
-    backgroundColor: colors.surface,
-    borderWidth: 1.5,
-    borderColor: colors.border,
-    borderRadius: borderRadius.md,
-  },
-  input: {
-    color: colors.text,
-    paddingVertical: spacing.sm + 2,
-    paddingHorizontal: spacing.md,
-    fontSize: fontSize.md,
-  },
-  error: { color: colors.error, fontSize: fontSize.sm, marginTop: spacing.xs },
-});
