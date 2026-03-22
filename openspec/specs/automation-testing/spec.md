@@ -2,7 +2,7 @@
 
 Define the E2E testing infrastructure, conventions, and scaffolding for the project so that user flows can be tested automatically across mobile and web platforms.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: E2E test directory structure follows conventions
 The project SHALL have an `e2e/` directory at the root with platform-specific subdirectories and shared test utilities.
@@ -61,3 +61,22 @@ The project SHALL include shared helpers for database seeding, test data factori
 - **WHEN** an E2E test needs a contact to exist before testing trade creation
 - **THEN** it imports a helper from `e2e/helpers/` to seed the database with test data
 - **AND** the helper cleans up after the test completes
+
+### Requirement: App state reset awaits IndexedDB deletion
+The `resetAppState` helper SHALL await full completion of IndexedDB database deletions before returning. `indexedDB.deleteDatabase()` returns an `IDBOpenDBRequest` (event-based, not promise-based), so each deletion SHALL be wrapped in a Promise that resolves on `onsuccess`, `onerror`, or `onblocked`, and all deletions SHALL be awaited via `Promise.all()`.
+
+#### Scenario: No stale data between tests
+- **WHEN** a test calls `resetAppState` followed by `page.reload()`
+- **THEN** all IndexedDB databases are fully deleted before the reload occurs
+- **AND** the next test starts with a clean database
+
+#### Scenario: Concurrent test execution is deterministic
+- **WHEN** the full E2E suite runs with parallel workers
+- **THEN** no test fails due to stale data from a previous test's database
+
+### Requirement: Playwright webServer uses project root as cwd
+The Playwright config `webServer.cwd` SHALL be set to the project root directory (resolved via `path.resolve(__dirname, '../..')`) so that Expo can find `package.json` and `app.json` when the config file lives in `e2e/web/`.
+
+#### Scenario: E2E tests start the dev server
+- **WHEN** Playwright starts the web server from `e2e/web/playwright.config.ts`
+- **THEN** Expo resolves `package.json` from the project root, not from `e2e/web/`
