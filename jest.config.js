@@ -7,6 +7,7 @@ module.exports = {
     "src/**/*.{ts,tsx}",
     "!src/**/*.d.ts",
     "!src/**/*.test.{ts,tsx}",
+    "!src/**/*.stories.{ts,tsx}",
     "!src/test/**",
   ],
   coverageDirectory: "coverage",

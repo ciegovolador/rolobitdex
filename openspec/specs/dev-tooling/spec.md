@@ -24,7 +24,7 @@ Jest SHALL discover tests from `src/` directory instead of `__tests__/`. The con
 
 #### Scenario: Coverage collection
 - **WHEN** the developer runs `npm run test:coverage`
-- **THEN** Jest collects coverage from `src/**/*.{ts,tsx}` excluding test files and type declarations
+- **THEN** Jest collects coverage from `src/**/*.{ts,tsx}` excluding test files, type declarations, and story files
 
 ### Requirement: Database layer test coverage
 The test suite SHALL include tests for contacts CRUD, banking aliases, silent payment addresses, trust notes, and trade lifecycle operations.
@@ -57,3 +57,18 @@ Key exported functions in `src/db/` and `src/lib/` SHALL have JSDoc comments des
 #### Scenario: Developer reads function docs
 - **WHEN** developer hovers over a function in their IDE
 - **THEN** JSDoc description, parameter types, and return type are shown
+
+### Requirement: Coverage excludes story files
+The Jest `collectCoverageFrom` configuration SHALL exclude `*.stories.{ts,tsx}` files so that Storybook story files do not inflate or deflate coverage metrics.
+
+#### Scenario: Story files not counted in coverage
+- **WHEN** the developer runs `npm run test:coverage`
+- **THEN** files matching `src/**/*.stories.{ts,tsx}` are excluded from the coverage report
+
+### Requirement: Dependency compatibility overrides
+When a transitive dependency has a version range that is too loose (e.g., peer dep allows versions rejected at runtime), the project SHALL use npm `overrides` in `package.json` to pin the transitive dependency to a compatible version.
+
+#### Scenario: Reanimated worklets compatibility
+- **WHEN** `react-native-reanimated` requires `react-native-worklets` `0.7.x` per its internal compatibility matrix
+- **THEN** `package.json` includes an `overrides` entry pinning `react-native-worklets` to `0.7.4`
+- **AND** the app starts without a worklets version incompatibility error

@@ -6,8 +6,7 @@
 export { Button } from "./Button";
 export { Input } from "./Input";
 export { Card } from "./Card";
-export { Modal } from "./Modal";
-export { ConfirmModal } from "./ConfirmModal";
+export { InlineConfirm } from "./InlineConfirm";
 export { Label } from "./Label";
 export { Badge } from "./Badge";
 export { Icon } from "./Icon";

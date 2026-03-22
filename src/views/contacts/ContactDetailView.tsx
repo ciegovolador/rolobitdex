@@ -1,6 +1,7 @@
+import { useRef } from "react";
 import { View } from "react-native";
 import { Button } from "../../components/Button";
-import { ConfirmModal } from "../../components/ConfirmModal";
+import { InlineConfirm } from "../../components/InlineConfirm";
 import { ContactHeaderView } from "./ContactHeaderView";
 import { AliasSectionView } from "./AliasSectionView";
 import { AddressSectionView } from "./AddressSectionView";
@@ -22,6 +23,8 @@ export function ContactDetailView({
   onSelectTrade,
   onNewTrade,
 }: ContactDetailViewProps) {
+  const deleteButtonRef = useRef<View>(null);
+
   if (!c.contact) return null;
 
   return (
@@ -83,15 +86,17 @@ export function ContactDetailView({
         onNewTrade={onNewTrade}
       />
 
-      <Button
-        title="Delete Contact"
-        variant="danger"
-        onPress={c.confirmDelete}
-        style={{ marginTop: spacing.xl }}
-        testID="contact-detail-delete-btn"
-      />
+      <View ref={deleteButtonRef}>
+        <Button
+          title="Delete Contact"
+          variant="danger"
+          onPress={c.confirmDelete}
+          style={{ marginTop: spacing.xl }}
+          testID="contact-detail-delete-btn"
+        />
+      </View>
 
-      <ConfirmModal
+      <InlineConfirm
         visible={c.showDelete}
         title="Delete Contact"
         message={`Delete "${c.contact.name}" and all associated data? This cannot be undone.`}
@@ -99,7 +104,8 @@ export function ContactDetailView({
         variant="danger"
         onConfirm={c.handleDelete}
         onCancel={c.cancelDelete}
-        testID="contact-detail-delete-modal"
+        triggerRef={deleteButtonRef}
+        testID="contact-detail-delete-confirm"
       />
     </View>
   );

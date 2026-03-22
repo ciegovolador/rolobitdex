@@ -27,7 +27,7 @@ Every interactive component in `src/components/` SHALL have a colocated `.storie
 
 #### Scenario: Existing components have stories
 - **WHEN** a developer opens Storybook
-- **THEN** stories for Button, Card, Input, ConfirmModal, and Sidebar are listed and renderable
+- **THEN** stories for Button, Card, Input, InlineConfirm, Badge, Icon, Label, and Sidebar are listed and renderable
 
 #### Scenario: New component requires story
 - **WHEN** a developer creates a new component in `src/components/`
@@ -45,8 +45,8 @@ All new frontend component work SHALL start in Storybook. Components MUST be bui
 - **THEN** they verify the change in Storybook before checking the app integration
 
 ### Requirement: Interactive stories for stateful components
-Components with controlled state (e.g., modals with `visible` prop) SHALL use a `render` function in their story that provides local state management so the component can be interacted with.
+Components with controlled state (e.g., InlineConfirm with `visible` prop) SHALL use a `render` function in their story that provides local state management so the component can be interacted with.
 
-#### Scenario: Modal story is interactive
-- **WHEN** a developer views the ConfirmModal story in Storybook
-- **THEN** they see a button to open the modal, and the modal closes when Cancel or Confirm is pressed
+#### Scenario: InlineConfirm story is interactive
+- **WHEN** a developer views the InlineConfirm Interactive story in Storybook
+- **THEN** they see a button to show the confirmation, and it dismisses when Cancel or Confirm is pressed

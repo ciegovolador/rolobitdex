@@ -17,9 +17,19 @@ export async function resetAppState(page: Page): Promise<void> {
   // Delete IndexedDB databases used by expo-sqlite on web
   await page.evaluate(async () => {
     const dbs = await indexedDB.databases();
-    for (const db of dbs) {
-      if (db.name) indexedDB.deleteDatabase(db.name);
-    }
+    await Promise.all(
+      dbs
+        .filter((db) => db.name)
+        .map(
+          (db) =>
+            new Promise<void>((resolve) => {
+              const req = indexedDB.deleteDatabase(db.name!);
+              req.onsuccess = () => resolve();
+              req.onerror = () => resolve();
+              req.onblocked = () => resolve();
+            })
+        )
+    );
   });
 }
 
